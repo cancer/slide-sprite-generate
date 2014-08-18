@@ -1,48 +1,37 @@
-Yokohama.js (#yjs20140817)
 
-## CSS Spriteを動的生成して快適ソシャゲ開発
+## CSS Spriteを動的に生成する
 
----
-
-## 自己紹介
-![](https://avatars2.githubusercontent.com/u/730940?s=200)
-
-宇野 陽太([@cancer6](https://twitter.com/cancer6))
-
-株式会社モバイルファクトリーというところで<br>
-フロントエンドエンジニアやってます
-
-最近はBackbone / Marionette / AngularJS あたりを触ったり<br>
-CSSの設計したりなど
+2014/08/18 LT大会
 
 ---
 
-## 生成の流れ
-- Image Assets Generator(Photoshop) <!-- .element: class="fragment" data-fragment-index="1" -->
-- フォルダに配置 <!-- .element: class="fragment" data-fragment-index="2" -->
-- Compass (grunt-watch) <!-- .element: class="fragment" data-fragment-index="3" -->
+## YogaのSprite生成の流れ
+- Image Assets Generator(Photoshop)
+- フォルダに配置
+- Spriteファイル生成/最適化
 
 ---
 
 ## Image Assets Generator(Photoshop)
 
-- [ファイル] → [生成]にチェックを入れておく <!-- .element: class="fragment" data-fragment-index="1" -->
-- レイヤーにファイル名をつけておく <!-- .element: class="fragment" data-fragment-index="2" -->
-- レイヤーが更新されると指定した名前で自動的に書き出し <!-- .element: class="fragment" data-fragment-index="3" -->
-- ※ Photoshop CC以降 <!-- .element: class="fragment" data-fragment-index="4" -->
+- [ファイル] → [生成]にチェックを入れておく
+- レイヤーにファイル名をつけておく
+- レイヤーが更新されると指定した名前で自動的に書き出し
+- ※ Photoshop CC以降
 
 ---
 
 ## フォルダに配置
 
-- 職人が丹精込めて一つ一つ移動 <!-- .element: class="fragment" data-fragment-index="1" -->
+- 職人が丹精込めて一つ一つ移動
 
 ---
 
-## Compass (grunt-watch)
+## Spriteファイル生成/最適化
 
-- CSSの生成と一緒にSpriteファイルも生成してくれる <!-- .element: class="fragment" data-fragment-index="1" -->
-- 便利！ <!-- .element: class="fragment" data-fragment-index="2" -->
+- Grunt and Compass
+- CSSの生成と一緒にSpriteファイルも生成してくれる
+ - grunt-imageminでSpriteファイルを最適化
 
 ---
 
@@ -52,35 +41,25 @@ http://compass-style.org/reference/compass/helpers/sprites/
 
 ---
 
-## CSS Sprite Helpers(略)のいいところ
+## CSS Sprite Helpers(略)について
 
-- 導入が楽 <!-- .element: class="fragment" data-fragment-index="1" -->
- - Compassが用意しているfunctionを使えばすぐ <!-- .element: class="fragment" data-fragment-index="2" -->
- - Sass(SCSS)ファイルに書いていくだけ <!-- .element: class="fragment" data-fragment-index="3" -->
+- CompassビルトインのSprite generator
+- 導入が楽
+ - Compassが用意しているfunctionを使えばすぐ
+ - Sass(SCSS)ファイルに書いていくだけ
+- マッピング情報はRuby側で管理
+ - function経由で取得
+ - 要キャッシュ
 
 ---
 
-## CSS Sprite Helpers(略)のよくないところ
+## CSS Sprite Helpers(略)について
 
-- 謎い <!-- .element: class="fragment" data-fragment-index="1" -->
- - マッピング情報はRuby側で管理 <!-- .element: class="fragment" data-fragment-index="2" -->
- - functionで取得するのでキャッシュしておかないといけない <!-- .element: class="fragment" data-fragment-index="3" -->
-
---
-
-## CSS Sprite Helpers(略)のよくないところ
-
-- 遅い <!-- .element: class="fragment" data-fragment-index="1" -->
- - CSSの生成が遅くなる(画像の変更が無くても+数秒) <!-- .element: class="fragment" data-fragment-index="2" -->
- - Sass(SCSS)に変更があるたびに画像の差分をチェック <!-- .element: class="fragment" data-fragment-index="3" -->
- - (Spriteの生成が遅いわけではないです、たぶん) <!-- .element: class="fragment" data-fragment-index="4" -->
-
---
-
-## CSS Sprite Helpers(略)のよくないところ
-
-- 画像生成後にgrunt-watchが走らない <!-- .element: class="fragment" data-fragment-index="1" -->
- - 画像の最適化とかしてると地味につらい <!-- .element: class="fragment" data-fragment-index="2" -->
+- CSSの生成が遅くなる...(画像の変更が無くても+数秒)
+ - Sass(SCSS)に変更があるたびに画像の差分をチェック
+- 生成されたSpriteファイルをwatchできない...
+ - Compassタスクの実行中に画像が生成されるため  
+grunt-imageminのwatchに検知されない
 
 ---
 
@@ -90,48 +69,44 @@ https://github.com/Ensighten/grunt-spritesmith
 
 ---
 
-## grunt-spritesmithのいいところ
+## grunt-spritesmithについて
 
-- Compass...というかSassに非依存 <!-- .element: class="fragment" data-fragment-index="1" -->
- - LESSでもStylusでも使える <!-- .element: class="fragment" data-fragment-index="2" -->
-- CSSの生成とCSS Spriteの生成を分離できる <!-- .element: class="fragment" data-fragment-index="3" -->
- - CompassはCSSの生成に集中 <!-- .element: class="fragment" data-fragment-index="4" -->
- - CSSの生成が早くなる <!-- .element: class="fragment" data-fragment-index="5" -->
-
---
-
-## grunt-spritesmithのいいところ
-
-- Compassみたいにブラックボックスじゃない <!-- .element: class="fragment" data-fragment-index="1" -->
- - マッピング情報はSass(SCSS)の変数化される <!-- .element: class="fragment" data-fragment-index="2" -->
- - 変数にアクセスするfunctionも一緒に書きだされる <!-- .element: class="fragment" data-fragment-index="3" -->
+- spritesmithのGrunt plugin
+- Sassに非依存
+ - LESSでもStylusでも使える
+- CSSの生成とCSS Spriteの生成を分離できる
+ - CompassはCSSの生成に集中
+ - Spriteファイルのwatchも可能に
+- マッピング情報はSass(SCSS)の変数化される
+ - 変数にアクセスするfunctionも一緒に書きだされる
 
 ---
 
-## grunt-spritesmithのよくないところ
+## grunt-spritesmithについて
 
-- フォルダが分けられない <!-- .element: class="fragment" data-fragment-index="1" -->
- - 一つのフォルダを監視して一つのSpriteを生成する <!-- .element: class="fragment" data-fragment-index="2" -->
-- CompassのI/Fと差異があるので、途中からの移行がつらい <!-- .element: class="fragment" data-fragment-index="3" -->
- - 規模が大きくなってくると全部差し替えとかやってられない <!-- .element: class="fragment" data-fragment-index="4" -->
+- フォルダが分けられない...
+- CompassのI/Fと差異があるので、途中からの移行がつらい...
+- カスタムタスクを書いて解決
 
 ---
 
-## もう少し使いやすく...
+## その他のSprite generator
 
-- 複数のフォルダを監視するgruntTaskを作成 <!-- .element: class="fragment" data-fragment-index="1" -->
- - 対象のフォルダ以下にあるフォルダ名でSpriteファイルを生成 <!-- .element: class="fragment" data-fragment-index="2" -->
- - grunt-spritesmithが作るマッピング情報をJSONで保存 <!-- .element: class="fragment" data-fragment-index="3" -->
- - パースしてSass(SCSS)のMapに変換 <!-- .element: class="fragment" data-fragment-index="4" -->
-- 既存のI/Fを再利用 <!-- .element: class="fragment" data-fragment-index="5" -->
+- css-sprite - https://github.com/aslansky/css-sprite
+ - そのままでgruntでもgulpでもnodeでもsassでも使えるっぽい？
+ - 新しい(ReleaseNoteは今年の2月から)
+
+- glue - https://github.com/jorgebastida/glue
+ - python製
+ - ガールフレンドはこれ  
+ http://ameblo.jp/ca-1pixel/entry-11862882925.html
+ - gruntプラグインはなぜかbitbucket
+
+- and more...
+ - https://www.npmjs.org/search?q=sprite
 
 ---
 
 ## 今後やりたいこと
-- Image Assets Generatorとgruntの連携 <!-- .element: class="fragment" data-fragment-index="1" -->
- - 職人のぬくもりを機械で置き換えたい <!-- .element: class="fragment" data-fragment-index="2" -->
-
----
-
-### ご清聴ありがとうございました
+- Image Assets Generatorとgruntの連携
 
